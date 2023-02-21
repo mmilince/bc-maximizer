@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "BC Maximizer",
+    "version": "0.0.1",
+    "icons": {
+        "16": "./images/logo16.png",
+        "32": "./images/logo32.png",
+        "48": "./images/logo48.png",
+        "128": "./images/logo128.png"
+    },
+    "description": "A simple extension that allows you to view pages in a wide layout.",
+    "content_scripts": [
+      {
+        "matches": ["https://businesscentral.dynamics.com/*", "http://*/*BC*", "https://*/*BC*"],
+        "js": ["./src/content.js"]
+      }
+    ]
+  }
