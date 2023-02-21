@@ -4,9 +4,15 @@ var observer = new MutationObserver(function(mutations) {
   if (location.href !== previousUrl && location.href.includes("page")) {
       previousUrl = location.href;
 
-      var button = document.querySelector('iframe').contentWindow.document.querySelector('button[title="Show wide layout view"][data-is-focusable="true"]');
-      if (button) {
-        button.click();
+      var iframe = document.querySelector('iframe');
+      if (iframe) {
+        var iframeDocument = iframe.contentWindow.document;
+        if (iframeDocument) {
+          var button = iframeDocument.querySelector('button[title="Show wide layout view"][data-is-focusable="true"]');
+          if (button) {
+            button.click();
+          }
+        }
       }
     }
 });
