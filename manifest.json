@@ -12,7 +12,7 @@
     "content_scripts": [
       {
         "matches": ["https://businesscentral.dynamics.com/*", "http://*/*BC*", "https://*/*BC*"],
-        "js": ["src/content.js"]
+        "js": ["./src/content.js"]
       }
     ]
   }
