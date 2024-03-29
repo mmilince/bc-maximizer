@@ -7,10 +7,12 @@ var observer = new MutationObserver(function(mutations) {
       var iframe = document.querySelector('iframe');
       if (iframe) {
         var iframeDocument = iframe.contentWindow.document;
-        var button = iframeDocument.querySelector('button[data-is-focusable="true"].ms-nav-layout-wide-toggle-button');
-        if (button) {
-          if (!button.outerHTML.includes('is-checked')) {
-            button.click();
+        if (iframeDocument) {
+          var button = iframeDocument.querySelector('button[data-is-focusable="true"].ms-nav-layout-wide-toggle-button');
+          if (button) {
+            if (!button.outerHTML.includes('is-checked')) {
+              button.click();
+            }
           }
         }
       }
