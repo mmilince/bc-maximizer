@@ -1,48 +1,75 @@
 var previousUrl = '';
 
-var observer = new MutationObserver(function(mutations) {
+const BUTTON_SELECTOR = 'button[data-is-focusable="true"]';
+const WIDE_TOGGLE_BUTTON_SELECTOR = `${BUTTON_SELECTOR}.ms-nav-layout-wide-toggle-button`;
+const LIST_LAYOUT_CHOOSER_SELECTOR = 'div[data-control-id="ListLayoutChooser"]:not([data-is-focusable="false"])';
+const LIST_OPTION_DIV_SELECTOR = 'div[data-control-id="0"]';
+const LIST_VIEW_ICON_SELECTOR = 'i:not([data-is-focusable="false"]).icon-NotBrickView';
+
+const config = { subtree: true, childList: true };
+
+const observer = new MutationObserver(mutations => {
   if (location.href !== previousUrl && location.href.includes("page")) {
     previousUrl = location.href;
-
-    var iframe = document.querySelector('iframe');
-    if (iframe) {
-      var iframeDocument = iframe.contentWindow.document;
-      if (iframeDocument) {
-        var button = iframeDocument.querySelector('button[data-is-focusable="true"].ms-nav-layout-wide-toggle-button');
-        if (button) {
-          if (!button.outerHTML.includes('is-checked')) {
-            button.click();
-          }
-        }
-
-        setTimeout(() => {
-          var listViewAlreadySelected = iframeDocument.querySelector('i:not([data-is-focusable="false"]).icon-NotBrickView');
-          if (listViewAlreadySelected) {
-            return;
-          }
-
-          var listLayoutChooser = iframeDocument.querySelector('div[data-control-id="ListLayoutChooser"]:not([data-is-focusable="false"])');
-          if (listLayoutChooser) {
-            var menuButton = listLayoutChooser.querySelector('button[data-is-focusable="true"]');
-            if (menuButton) {
-              if (!menuButton.outerHTML.includes('is-expanded')) {
-                menuButton.click();
-
-                var listOptionDiv = iframeDocument.querySelector('div[data-control-id="0"]');
-                if (listOptionDiv) {
-                  var listOptionButton = listOptionDiv.querySelector('button[data-is-focusable="true"]');
-                  if (listOptionButton) {
-                    listOptionButton.click();
-                  }
-                }
-              }
-            }
-          }
-        }, 0);
-      }
-    }
+    handlePageChange();
   }
 });
 
-const config = {subtree: true, childList: true};
 observer.observe(document, config);
+
+function handlePageChange() {
+  const iframe = document.querySelector('iframe');
+  if (iframe) {
+    const iframeDocument = iframe.contentWindow.document;
+    if (iframeDocument) {
+      handleWideToggleButton(iframeDocument);
+
+      setTimeout(() => {
+        handleListViewSelection(iframeDocument);
+      }, 0);
+    }
+  }
+}
+
+function handleWideToggleButton(iframeDocument) {
+  try {
+    const button = iframeDocument.querySelector(WIDE_TOGGLE_BUTTON_SELECTOR);
+    if (button && !button.outerHTML.includes('is-checked')) {
+      button.click();
+    }
+  } catch (error) {
+    console.error('Error handling wide toggle button:', error);
+  }
+}
+
+function handleListViewSelection(iframeDocument) {
+  try {
+    const listViewAlreadySelected = iframeDocument.querySelector(LIST_VIEW_ICON_SELECTOR);
+    if (listViewAlreadySelected) return;
+
+    const listLayoutChooser = iframeDocument.querySelector(LIST_LAYOUT_CHOOSER_SELECTOR);
+    if (listLayoutChooser) {
+      const menuButton = listLayoutChooser.querySelector(BUTTON_SELECTOR);
+      if (menuButton && !menuButton.outerHTML.includes('is-expanded')) {
+        menuButton.click();
+        selectListViewOption(iframeDocument);
+      }
+    }
+  } catch (error) {
+    console.error('Error handling list view selection:', error);
+  }
+}
+
+function selectListViewOption(iframeDocument) {
+  try {
+    const listOptionDiv = iframeDocument.querySelector(LIST_OPTION_DIV_SELECTOR);
+    if (listOptionDiv) {
+      const listOptionButton = listOptionDiv.querySelector(BUTTON_SELECTOR);
+      if (listOptionButton) {
+        listOptionButton.click();
+      }
+    }
+  } catch (error) {
+    console.error('Error selecting list view option:', error);
+  }
+}

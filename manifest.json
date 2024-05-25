@@ -11,7 +11,7 @@
     "description": "A simple extension that allows you to view pages in a wide layout.",
     "content_scripts": [
       {
-        "matches": ["https://businesscentral.dynamics.com/*", "http://*/*BC*", "https://*/*BC*", "https://*bc*.dynamics.com/*"],
+        "matches": ["https://*.dynamics.com/*", "http://*/*BC*", "https://*/*BC*"],
         "js": ["./src/content.js"]
       }
     ]
