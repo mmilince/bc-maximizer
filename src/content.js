@@ -6,6 +6,8 @@ const LIST_LAYOUT_CHOOSER_SELECTOR = 'div[data-control-id="ListLayoutChooser"]:n
 const LIST_OPTION_DIV_SELECTOR = 'div[data-control-id="0"]';
 const LIST_VIEW_ICON_SELECTOR = 'i:not([data-is-focusable="false"]).icon-NotBrickView';
 
+const FAST_TAB_SELECTOR = '.show-more-fields-button';
+
 const config = { subtree: true, childList: true };
 
 const observer = new MutationObserver(mutations => {
@@ -23,6 +25,7 @@ function handlePageChange() {
     const iframeDocument = iframe.contentWindow.document;
     if (iframeDocument) {
       handleWideToggleButton(iframeDocument);
+      handleFastTabs(iframeDocument);
 
       setTimeout(() => {
         handleListViewSelection(iframeDocument);
@@ -39,6 +42,28 @@ function handleWideToggleButton(iframeDocument) {
     }
   } catch (error) {
     console.error('Error handling wide toggle button:', error);
+  }
+}
+
+function handleFastTabs(document) {
+  try {
+    const buttons = document.querySelectorAll(FAST_TAB_SELECTOR);
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', (event) => {
+        if (!button.getAttribute('bc-maximizer-clicked')) {
+          button.setAttribute('bc-maximizer-clicked', 'true');
+        }
+      });
+    });
+
+    buttons.forEach((button, index) => {
+      if (!button.getAttribute('bc-maximizer-clicked')) {
+        button.click();
+      };
+    });
+  } catch (error) {
+    console.error('Error handling FastTab click: ', error);
   }
 }
 
