@@ -25,7 +25,7 @@ function handlePageChange() {
     const iframeDocument = iframe.contentWindow.document;
     if (iframeDocument) {
       handleWideToggleButton(iframeDocument);
-      handleFastTabs(iframeDocument);
+      handleShowMore(iframeDocument);
 
       setTimeout(() => {
         handleListViewSelection(iframeDocument);
@@ -45,7 +45,7 @@ function handleWideToggleButton(iframeDocument) {
   }
 }
 
-function handleFastTabs(document) {
+function handleShowMore(document) {
   try {
     const buttons = document.querySelectorAll(FAST_TAB_SELECTOR);
 
