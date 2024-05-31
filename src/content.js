@@ -6,6 +6,8 @@ const LIST_LAYOUT_CHOOSER_SELECTOR = 'div[data-control-id="ListLayoutChooser"]:n
 const LIST_OPTION_DIV_SELECTOR = 'div[data-control-id="0"]';
 const LIST_VIEW_ICON_SELECTOR = 'i:not([data-is-focusable="false"]).icon-NotBrickView';
 
+const SELECTOR = '.ms-nav-columns-caption[role="button"][aria-expanded="false"]';
+
 const config = { subtree: true, childList: true };
 
 const observer = new MutationObserver(mutations => {
@@ -22,12 +24,26 @@ function handlePageChange() {
   if (iframe) {
     const iframeDocument = iframe.contentWindow.document;
     if (iframeDocument) {
+      handleFastTabs(iframeDocument);
       handleWideToggleButton(iframeDocument);
 
       setTimeout(() => {
         handleListViewSelection(iframeDocument);
       }, 0);
     }
+  }
+}
+
+function handleFastTabs(document) {
+  try {
+    const buttons = document.querySelectorAll(SELECTOR);
+    if (buttons) {
+      buttons.forEach((button, index) => {
+        button.click();
+      });
+    }
+  } catch (error) {
+    console.error('Error handling FastTab click: ', error);
   }
 }
 
