@@ -6,7 +6,7 @@ const LIST_LAYOUT_CHOOSER_SELECTOR = 'div[data-control-id="ListLayoutChooser"]:n
 const LIST_OPTION_DIV_SELECTOR = 'div[data-control-id="0"]';
 const LIST_VIEW_ICON_SELECTOR = 'i:not([data-is-focusable="false"]).icon-NotBrickView';
 
-const SELECTOR = '.ms-nav-columns-caption[role="button"][aria-expanded="false"]';
+const FAST_TAB_SELECTOR = '.ms-nav-columns-caption[role="button"][aria-expanded="false"]';
 
 const config = { subtree: true, childList: true };
 
@@ -36,7 +36,7 @@ function handlePageChange() {
 
 function handleFastTabs(document) {
   try {
-    const buttons = document.querySelectorAll(SELECTOR);
+    const buttons = document.querySelectorAll(FAST_TAB_SELECTOR);
     if (buttons) {
       buttons.forEach((button, index) => {
         button.click();
