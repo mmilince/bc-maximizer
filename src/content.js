@@ -6,7 +6,7 @@ const LIST_LAYOUT_CHOOSER_SELECTOR = 'div[data-control-id="ListLayoutChooser"]:n
 const LIST_OPTION_DIV_SELECTOR = 'div[data-control-id="0"]';
 const LIST_VIEW_ICON_SELECTOR = 'i:not([data-is-focusable="false"]).icon-NotBrickView';
 
-const FAST_TAB_SELECTOR = '.show-more-fields-button';
+const FAST_TAB_SHOW_MORE_SELECTOR = '.show-more-fields-button';
 
 const config = { subtree: true, childList: true };
 
@@ -47,7 +47,7 @@ function handleWideToggleButton(iframeDocument) {
 
 function handleShowMore(document) {
   try {
-    const buttons = document.querySelectorAll(FAST_TAB_SELECTOR);
+    const buttons = document.querySelectorAll(FAST_TAB_SHOW_MORE_SELECTOR);
 
     buttons.forEach((button, index) => {
       button.addEventListener('click', (event) => {
