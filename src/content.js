@@ -6,6 +6,8 @@ const LIST_LAYOUT_CHOOSER_SELECTOR = 'div[data-control-id="ListLayoutChooser"]:n
 const LIST_OPTION_DIV_SELECTOR = 'div[data-control-id="0"]';
 const LIST_VIEW_ICON_SELECTOR = 'i:not([data-is-focusable="false"]).icon-NotBrickView';
 
+const FACT_BOX_SELECTOR = 'button[id$="factBoxToggle"]';
+
 const config = { subtree: true, childList: true };
 
 const observer = new MutationObserver(mutations => {
@@ -23,11 +25,25 @@ function handlePageChange() {
     const iframeDocument = iframe.contentWindow.document;
     if (iframeDocument) {
       handleWideToggleButton(iframeDocument);
-
+      
+      setTimeout(() => {
+        handleFactBoxButton(iframeDocument);
+      }, 0);
       setTimeout(() => {
         handleListViewSelection(iframeDocument);
       }, 0);
     }
+  }
+}
+
+function handleFactBoxButton(iframeDocument) {
+  try {
+    let button = iframeDocument.querySelector(FACT_BOX_SELECTOR);
+    if (button && button.outerHTML.includes('aria-checked="false"')) {
+      button.click();
+    }
+  } catch (error) {
+    console.error('Error handling FactBox button:', error);
   }
 }
 
